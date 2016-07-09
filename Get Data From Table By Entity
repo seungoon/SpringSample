@@ -1,0 +1,100 @@
+---------------------------------------------------------------------------
+１．ＪＰＡを継承するTestDataRepositoryクラスを作成する。
+---------------------------------------------------------------------------
+package com.example.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+ 
+import com.example.entity.TestData;
+ 
+@Repository
+public interface TestDataRepository extends JpaRepository<TestData, Long>{
+}
+
+---------------------------------------------------------------------------
+２．Entityクラス（参照対象テーブル＝item_master）を作成する。
+---------------------------------------------------------------------------
+package com.example.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+ 
+@Entity(name="item_master")
+public class TestData {
+ 
+    @Id
+    private Long id;
+    private Long value;
+    private String name;
+ 
+    public Long getId() {
+        return id;
+    }
+ 
+    public void setId(Long id) {
+        this.id = id;
+    }
+ 
+    public Long getValue() {
+        return value;
+    }
+ 
+    public void setValue(Long value) {
+        this.value = value;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public void setName(String name) {
+        this.name = name;
+    }
+ 
+}
+
+---------------------------------------------------------------------------
+３．Controlクラスで参照テーブルを呼び出す。
+---------------------------------------------------------------------------
+
+import com.example.entity.TestData;
+import com.example.repository.TestDataRepository;
+ 
+@RestController
+@EnableAutoConfiguration
+public class App {
+ 
+    @Autowired
+    TestDataRepository repository;
+ 
+    @RequestMapping("/")
+    String home(){
+        return "Hello World!!";
+    }
+ 
+    @RequestMapping("/getData")
+    List<TestData> testData(Model model){
+ 
+        // DBからデータ取得
+        List<TestData> list = repository.findAll();
+ 
+        return list;
+    }
+ 
+    @RequestMapping("/getDataForHtml")
+    ModelAndView testData(ModelAndView mav){
+ 
+        // DBからデータ取得
+        List<TestData> list = repository.findAll();
+ 
+        // テンプレート名指定
+        mav.setViewName("testThymeleaf");
+        // 動的項目設定
+        mav.addObject("messages", list);
+ 
+        return mav;
+    }
+}
+
+
