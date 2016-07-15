@@ -1,0 +1,28 @@
+１．testDataはEntityクラスで、testDatasはデータリストである。
+<table>
+	<th:block  th:each="i : ${#numbers.sequence( 1, 3)}">
+			<table>
+				<tr>
+					<th>NO</th>
+					<th>NAME</th>
+					<th>PRICE</th>
+				</tr>
+				<tr th:each="testData, stat  : ${testDatas}" th:object="${testData}">
+					<td th:text="${stat .index}"></td>
+					<td th:text="*{name}">Onions</td>
+					<td th:text="*{value}">2.41</td>
+				</tr>
+			</table>
+	</th:block>
+</table>
+
+※参考として、他には以下のようなものがある。
+ステータス変数	内容
+index	0始まりの現在の「繰り返しインデックス」
+count	1始まりの現在の「繰り返しインデックス」
+size	繰り返し変数の全要素数
+current	現在の要素オブジェクト
+even	現在の繰り返し位置が偶数の場合true
+odd	現在の繰り返し位置が奇数の場合true
+first	現在の繰り返し処理が最初の場合はtrue
+last	現在の繰り返し処理が最後の場合はtrue
