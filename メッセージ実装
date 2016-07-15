@@ -1,0 +1,11 @@
+１．resourcesフォルダ配下にmessages.propertiesを作成しメッセージを定義する。
+
+content.title=This is title
+content.message=This is message
+
+
+２．View側では以下のようにすることでアクセスができる。
+
+<p th:text="#{content.title}"></p>
+<p th:text="#{content.message}"></p>
+
