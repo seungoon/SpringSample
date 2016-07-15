@@ -1,2 +1,25 @@
 １．以下のサイトを参考する。
 http://qiita.com/tag1216/items/55742fdb442e5617f727
+
+→実装方法⓵
+#プロパティファイルに名前付きクエリーを定義する
+resources/META-INF/jpa-named-queries.properties
+  ----------------------------------------------------------------------------------------
+  TestData.findTableData=select id, value, name from item_masterorder
+  TestData.findTableId=select id from item_master where id = :id order by id desc
+  ----------------------------------------------------------------------------------------
+ 
+//リポジトリから呼び出す
+@Repository
+public interface TestDataRepository extends JpaRepository<TestData, Long>{
+	public TestData findByName(String name);
+    public TestData findByValue(Long value);
+    public List<TestData> findByNameContainsOrderByIdAsc(String name);
+    
+    @Query("select id, value, name from item_master where name like %:name% order by id asc")
+    public List<TestData> findUsers(@Param("name") String name);
+    
+    @Query(name = "TestData.findTableId")
+    public List<TestData> findTableId(@Param("id") long id);
+
+}
