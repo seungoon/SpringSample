@@ -1,0 +1,88 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+     
+     <style type="text/css">
+     .redCSS
+     {
+         background-color:Red;
+     }
+     .greenCSS
+     {
+         background-color:Green;
+     }
+    </style>
+    <script type="text/javascript">
+    	
+		var changeDirection = function(data) {
+    		var direction = data;
+    		alert(direction);
+		};
+
+
+        $(function () {
+            var trInstance = $('#abcd').find('tbody').find('tr');
+            trInstance.click(function () {
+                trInstance.removeClass('redCSS');
+                trInstance.find('td:eq(0)').removeClass('greenCSS');
+                var instance = $(this);
+                instance.addClass('redCSS');
+                instance.find('td:eq(0)').addClass('greenCSS');
+                
+                // 指定したテーブルのＩＤを取得
+                //alert(instance.closest('tr').attr('id'));
+                
+                changeDirection(instance.closest('tr').attr('id'));
+            });
+        });
+        
+
+
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <table id="abcd" border="1">
+    	<thead id="head">
+    		<tr>
+    			<td>No</td>
+    			<td>名称</td>
+    		</tr>
+    	</thead>
+    	<tbody id="body">
+	        <tr id="11">
+	            <td>
+	                1
+	            </td>
+	            <td>
+	                Name1
+	            </td>
+	        </tr>
+	        <tr id="12">
+	            <td>
+	                2
+	            </td>
+	            <td>
+	                Name 2
+	            </td>
+	        </tr>
+	        <tr id="13">
+	            <td>
+	                3
+	            </td>
+	            <td>
+	                Name 3
+	            </td>
+	        </tr>
+	        <tr id="14">
+	            <td>4</td><td>Name 4</td>
+	        </tr>
+	 	</tbody>
+    </table>
+    </form>
+    
+</body>
+</html>
