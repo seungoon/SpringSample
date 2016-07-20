@@ -1,0 +1,74 @@
+１．ＨＴＭＬページに下記のソースを追加する。
+
+<P>  The time on the server is ${serverTime}. </P>
+ 
+<div id="ajax_data">
+    <input type="button" id="ajax_btn" value="Ajax通信テスト" /><br />
+   	ＪＳＯＮ出力結果：<div><table id="outTable" border="1"></table></div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		
+		 var data = {"name": "hoge",};
+
+		
+	    // Ajax通信テスト ボタンクリック
+	    $("#ajax_btn").click(function() {
+	    
+	        // outputDataを空に初期化
+	        $("#outTable").text("");
+	        $.ajax({
+	            type        : "POST",
+	            url         : "getData",
+	            contentType : "application/json",
+	            data        : JSON.stringify(data),
+	            dataType    : "json",
+	            success     : function(data) {
+	                            success(data);
+	                        },
+	            error       : function(XMLHttpRequest, textStatus, errorThrown) {
+	                            error(XMLHttpRequest, textStatus, errorThrown);
+	                        }
+	        });
+	    });
+	});
+	 
+	// Ajax通信成功時処理
+	function success(data) {
+	    alert("success:" + data);
+	    
+	    var html = [];
+        /* loop through array */
+        $.each(data, function(index, d){     
+        	html.push("<tr>");
+            html.push("<td>","NO : ", index + 1, "</td>",
+            		  "<td>","Manufacturer : ", d.id, "</td>",
+            	 	  "<td>","Sold : ", d.value, "</td>",
+            	 	 "<td>","Month : ", d.name, "</td>");
+            html.push("</tr>");
+        });
+
+        $("#outTable").html(html.join(''));
+	}
+	 
+	// Ajax通信失敗時処理
+	function error(XMLHttpRequest, textStatus, errorThrown) {
+	    alert("error:" + XMLHttpRequest);
+	    alert("status:" + textStatus);
+	    alert("errorThrown:" + errorThrown);
+	}
+</script>
+
+
+２．バックエンド側に呼び出しメソッドを作成する。
+
+@RequestMapping(value = "/getData", consumes=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    List<TestData> testData(Model model){
+ 
+        // DBからデータ取得
+        List<TestData> list = repository.findAll();
+ 
+        return list;
+    }
