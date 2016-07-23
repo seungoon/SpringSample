@@ -26,3 +26,8 @@ server.context-path=/XXXXXXXX
 spring.messages.cache-seconds=-1
 error.whitelabel.enabled=false
 security.require_ssl=true
+#Tomcat関連の設定
+server.port=8080　←ポート番号も変えられます。
+server.tomcat.access-log-enabled=true
+server.tomcat.access-log-pattern=%h %l %u %t "%r" %s %b %D "%{User-Agent}i" %S　　←ここは適宜調整。
+server.tomcat.basedir=/tmp　　←どこに置くか調整. この場合，/tmp/logs 以下になります。
