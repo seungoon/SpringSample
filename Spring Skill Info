@@ -1,0 +1,17 @@
+1.リダイレクト先に値を引き渡す方法：
+
+  リダイレクトするには、Controllerの返却値のprefixにredirect:と付けるだけです。
+  return "redirect:/foo/bar"
+
+  リダイレクト先に値を渡すにはRedirectAttributesを使います。。
+
+Controller.java
+
+    @RequestMapping(value = "/to", method = RequestMethod.GET)
+    String to(Model model, @RequestParam String foo,
+            @RequestParam String bar,
+            RedirectAttributes attributes) {
+                attributes.addFlashAttribute("CompleteMessage", completeMessage);
+                return "redirect:/hoge";
+        }
+
