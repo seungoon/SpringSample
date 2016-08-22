@@ -7,13 +7,29 @@
 
 Controller.java
 
-    @RequestMapping(value = "/to", method = RequestMethod.GET)
-    String to(Model model, @RequestParam String foo,
-            @RequestParam String bar,
-            RedirectAttributes attributes) {
-                attributes.addFlashAttribute("CompleteMessage", completeMessage);
-                return "redirect:/hoge";
+ ->遷移元
+  @RequestMapping("/send")
+	public String send(@Validated InputForm form,
+	         BindingResult result,
+	         RedirectAttributes redirectAttributes) {
+		
+		redirectAttributes.addFlashAttribute("inputForm", form);
+		
+		return "redirect:/Test";
+	}
+
+->遷移先
+　@RequestMapping(value="/Test", method=RequestMethod.GET)
+  public String TestGet(Model model){
+    	InputForm form = (InputForm) model.asMap().get("inputForm");
+        if (form == null) {
+           form = new InputForm();
         }
+    	
+        return "This is another controll!";
+    }
+
+
 ２．SessionのＩＤを変更する方法
 
     デフォルトでログイン後にセッションIDは自動で変更されています。正しくはセッションの情報を引き継いでセッションIDを変更しています。
