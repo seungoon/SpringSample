@@ -14,4 +14,10 @@ Controller.java
                 attributes.addFlashAttribute("CompleteMessage", completeMessage);
                 return "redirect:/hoge";
         }
+２．SessionのＩＤを変更する方法
 
+    デフォルトでログイン後にセッションIDは自動で変更されています。正しくはセッションの情報を引き継いでセッションIDを変更しています。
+    セッションの情報を引き継がずセッションIDを変更するには以下のようにします。
+
+    // セッションIDを変更し、セッションを新しく作り直す
+    http.sessionManagement().sessionFixation().newSession();
