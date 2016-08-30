@@ -1,0 +1,7 @@
+
+１．Environmentクラスを定義する。
+@Autowired
+private Environment env;
+
+２．application.propertiesファイルに定義した「key.test」キーを読み込む。
+System.out.println(env.getRequiredProperty("key.test"));
