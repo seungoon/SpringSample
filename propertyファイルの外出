@@ -1,0 +1,6 @@
+１．MainAppのクラスに下記の設定を行う　　
+　@PropertySource(value = "${classpath.resource.properties}", ignoreResourceNotFound = true)
+ 
+２．対象プロパティに下記の設定を行う　　
+　spring.profile=ct
+　classpath.resource.properties=file:C:/Temp/web/application-ct-entity.properties
