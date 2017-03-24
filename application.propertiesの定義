@@ -1,7 +1,10 @@
-spring.datasource.url=jdbc:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#DB設定
+spring.datasource.name=DynamicRoutingDataSourceResolver
+spring.datasource.driverClassName=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+spring.datasource.url=jdbc:log4jdbc:postgresql://127.0.0.1:5432/XXX?currentSchema=common
 spring.datasource.username=XXXX
 spring.datasource.password=XXXX
-spring.datasource.driverClassName=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 #コネクションプール設定(default)
 spring.datasource.max-active=100
 spring.datasource.max-idle=8
@@ -31,3 +34,7 @@ server.port=8080　←ポート番号も変えられます。
 server.tomcat.access-log-enabled=true
 server.tomcat.access-log-pattern=%h %l %u %t "%r" %s %b %D "%{User-Agent}i" %S　　←ここは適宜調整。
 server.tomcat.basedir=/tmp　　←どこに置くか調整. この場合，/tmp/logs 以下になります。
+
+#application.propertiesファイルの外出し設定
+java -jar {jar-file-name}.jar 
+--spring.config.location=file:///C:/{file-path}/{file-name}.properties
