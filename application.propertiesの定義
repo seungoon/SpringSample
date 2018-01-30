@@ -10,6 +10,7 @@ spring.datasource.max-active=100
 spring.datasource.max-idle=8
 spring.datasource.min-idle=8
 spring.datasource.initial-size=10
+spring.datasource.sql-script-encoding=utf-8
 #セッションタイムアウトを1800秒とする。
 spring.datasource.session-timeout=1800
 #コネクションを利用する際に検証を行う。DBが再起動していてもこの処理を挟むことでtomcatを再起動しなくても済む
