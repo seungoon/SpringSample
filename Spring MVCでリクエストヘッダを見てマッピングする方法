@@ -1,0 +1,27 @@
+※Spring MVCでリクエストヘッダをマッピングの条件とする方法：
+
+■ consumes: リクエストヘッダのContent-Typeをマッピング条件として絞り込む
+@Controller
+@RequestMapping(value = "/pets", method = RequestMethod.POST, consumes="application/json")
+public void addPet(@RequestBody Pet pet, Model model) {
+    // implementation omitted
+}
+
+■ produces: リクエストヘッダのAcceptをマッピング条件として絞り込む+レスポンスのMediaTypeを指定する
+@Controller
+@RequestMapping(value = "/pets/{petId}", method = RequestMethod.GET, produces="application/json")
+@ResponseBody
+public Pet getPet(@PathVariable String petId, Model model) {
+    // implementation omitted
+}
+
+■ headers: リクエストヘッダでマッピングを絞り込む
+@Controller
+@RequestMapping("/owners/{ownerId}")
+public class RelativePathUriTemplateController {
+    @RequestMapping(value = "/pets", method = RequestMethod.GET, headers="myHeader=myValue")
+    public void findPet(@PathVariable String ownerId, @PathVariable String petId, Model model) {
+        // implementation omitted
+    }
+}
+
