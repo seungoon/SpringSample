@@ -1,0 +1,20 @@
+※Cookie設定
+
+@RequestMapping(value = "/login", method = RequestMethod.POST)
+public ResponseEntity<String> singleSignOn(@RequestBody String bodySso, HttpServletResponse response) {
+
+    response.addCookie(new Cookie("heroku-nav-data", navData));
+    return new ResponseEntity<String>(id,headers,HttpStatus.OK);    
+
+}
+
+→下記の情報の追加できる。
+final Cookie cookie = new Cookie(this.cookieName, principal.getSignedJWT());
+cookie.setDomain(this.cookieDomain);
+cookie.setSecure(this.sendSecureCookie);
+cookie.setHttpOnly(true);
+cookie.setMaxAge(maxAge);
+response.addCookie(cookie);
+
+
+※参考サイト：　https://qiita.com/syukai/items/92d7dfc22b6ac34f9b87
