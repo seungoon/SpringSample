@@ -1,0 +1,42 @@
+※参考情報：　https://creasys.org/rambo/articles/4248a2654c9ac277f174
+
+■方法１：
+
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+CloseableHttpClient httpClient = HttpClientBuilder
+    .create()
+    .build();
+HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+RestTemplate restTemplate = new RestTemplate(factory);
+
+
+■方法２：
+
+SessionConfig.java
+@EnableRedisHttpSession
+@Configuration
+public class SessionConfig {
+    @Autowired
+    SecurityConfig securityConfig;
+
+    @Bean
+    public CookieSerializer cookieSerializer(){
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+
+        // HTTPSで動作している場合はHTTPSでないとCookieを返さないようにする
+        if(securityConfig.getUseHttps()){
+            serializer.setUseSecureCookie(true);
+        }
+
+        // CookieへのアクセスはHTTPプロトコルに限定（SSHとかはNG）
+        serializer.setUseHttpOnlyCookie(true);
+
+        return serializer;
+    }
+}
+
+
