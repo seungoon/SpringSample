@@ -1,0 +1,15 @@
+■リダイレクト
+
+・リダイレクトしたい場合は"redirect:"を付ける。
+
+    @RequestMapping("/redirect1")
+    public String redirect1() {
+        return "redirect:method1";
+    }
+
+・外部URLを指定する事もできる。
+
+    @RequestMapping("/redirect2")
+    public String redirect2() {
+        return "redirect:https://www.google.co.jp/";
+    }
