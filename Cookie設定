@@ -1,4 +1,4 @@
-※Cookie設定
+■Cookie設定
 
 @RequestMapping(value = "/login", method = RequestMethod.POST)
 public ResponseEntity<String> singleSignOn(@RequestBody String bodySso, HttpServletResponse response) {
@@ -18,3 +18,65 @@ response.addCookie(cookie);
 
 
 ※参考サイト：　https://qiita.com/syukai/items/92d7dfc22b6ac34f9b87
+
+
+■SpringBootでCookie取得：
+
+方法１：You need to build your RestTemplate as follows.
+
+RestTemplate restTableau = new RestTemplate(new MyClientHttpRequestFactory());
+Extend ClientHttpRequestFactory as follows.
+
+public class MyClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
+
+
+private Cookie cookie;
+//setters and getters.
+
+@Override
+protected void prepareConnection(HttpURLConnection connection, String httpMethod) {
+ this.setCookie(connection.getRequestProperty("Cookie"));
+}
+}
+
+方法２：
+
+Using Apache HTTP Client 4 With RestTemplate
+By default, the RestTemplate class creates HTTP requests by using the standard classes found from
+the java.net package. Because we want to use Apache HTTP client for this purpose, we have to make 
+the following changes to our application context configuration class:
+
+Create a new ClientHttpRequestFactory bean. Because we want to use Apache HTTP client, we have to 
+create a new HttpComponentsClientHttpRequestFactory object, and configure the connection and read 
+timeouts of the underlying Apache HTTP client.
+Create a new RestTemplate bean and configure the used ClientHttpRequestFactory object.
+The source code of our application context configuration class looks as follows:
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+ 
+@Configuration
+public class RestTemplateConfiguration {
+ 
+    @Bean
+    public ClientHttpRequestFactory clientHttpRequestFactory() {
+        HttpComponentsClientHttpRequestFactory factory = 
+                new HttpComponentsClientHttpRequestFactory();
+         
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(10000);
+         
+        return factory;
+    }
+ 
+    @Bean
+    public RestTemplate restTemplate(ClientHttpRequestFactory clientHttpRequestFactory) {
+        return new RestTemplate(clientHttpRequestFactory);
+    }
+}
+
+
+
+
