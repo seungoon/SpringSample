@@ -77,6 +77,11 @@ public class RestTemplateConfiguration {
     }
 }
 
+■ローカル環境でのCookie設定
+I've edited /etc/hosts to point some imaginary subdomains at 127.0.0.1:
 
+127.0.0.1 localexample.com
+127.0.0.1 fr.localexample.com
+127.0.0.1 de.localexample.com
 
 
