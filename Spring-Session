@@ -1,4 +1,5 @@
 ※参考サイト：　https://qiita.com/opengl-8080/items/032ed0fa27a239bdc1cc
+              https://qiita.com/kazuki43zoo/items/8123906809632503cc21
 
 ■同時セッション数を制限する
 セッションが新たに作成されたことを Spring Security が検知できるようにするため、 HttpSessionEventPublisher をリスナーとして登録する必要がある
