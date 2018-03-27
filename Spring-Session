@@ -1,5 +1,6 @@
 ※参考サイト：　https://qiita.com/opengl-8080/items/032ed0fa27a239bdc1cc
               https://qiita.com/kazuki43zoo/items/8123906809632503cc21
+              http://www.pwv.co.jp/~take/TakeWiki/index.php?Spring-MVC%E3%81%A7spring%E3%81%AEsession%20scope%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E3%83%86%E3%82%B9%E3%83%88%E3%81%97%E3%81%9F%E3%81%84
 
 ■同時セッション数を制限する
 セッションが新たに作成されたことを Spring Security が検知できるようにするため、 HttpSessionEventPublisher をリスナーとして登録する必要がある
