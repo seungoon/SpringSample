@@ -1,0 +1,19 @@
+※/** キーワードで制御する。
+
+RequestMapping("/trades/**")
+ public String handleRequestById (@ModelAttribute("visitor") Visitor visitor,
+                                  Model model,
+                                  HttpServletRequest request,
+                                  SessionStatus sessionStatus) {
+
+        model.addAttribute("msg", "trades request, serving page " +
+                                                    request.getRequestURI());
+        if (request.getRequestURI()
+                   .endsWith("clear")) {
+            sessionStatus.setComplete();
+            return "clear-page";
+        } else {
+            visitor.addPageVisited(request.getRequestURI());
+            return "traders-page";
+        }
+    }
