@@ -1,13 +1,15 @@
 ※/** キーワードで制御する。
 
-RequestMapping("/trades/**")
- public String handleRequestById (@ModelAttribute("visitor") Visitor visitor,
-                                  Model model,
-                                  HttpServletRequest request,
-                                  SessionStatus sessionStatus) {
+@Controller
+@SessionAttributes("visitor")
+@RequestMapping
+public class TradeController {
 
-        model.addAttribute("msg", "trades request, serving page " +
-                                                    request.getRequestURI());
+    @RequestMapping("/trades/**")
+    public String handleRequestById (@ModelAttribute("visitor") Visitor visitor, Model model,
+                                     HttpServletRequest request, SessionStatus sessionStatus) {
+
+        model.addAttribute("msg", "trades request, serving page " + request.getRequestURI());
         if (request.getRequestURI()
                    .endsWith("clear")) {
             sessionStatus.setComplete();
@@ -17,3 +19,11 @@ RequestMapping("/trades/**")
             return "traders-page";
         }
     }
+
+
+    
+    @ModelAttribute("visitor")
+    public Visitor getVisitor (HttpServletRequest request) {
+        return new Visitor(request.getRemoteAddr());
+    }
+}
