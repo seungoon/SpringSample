@@ -1,0 +1,22 @@
+※参考サイト：https://qiita.com/rubytomato@github/items/4f0c64eb9a24eaceaa6e
+
+１．スケジュールを有効にするにはEnableSchedulingを使用します。
+　
+  @SpringBootApplication
+  @EnableScheduling
+  public class App {
+    public static void main(String[] args) {
+      SpringApplication.run(App.class, args);
+    }
+  }
+  
+  →Scheduledアノテーション
+  定期実行したいtaskに実行周期をScheduledアノテーションで指定します。
+  このアノテーションが指定できるのは引数を取らないメソッドだけです。（コンパイルエラーにはなりませんが実行時に例外が発生します。）
+
+  field	description
+  fixedDelay	taskの実行完了時点から指定時間後に次のtaskを実行する. 単位はms.
+  fixedRate	taskの実行開始時点から指定時間後に次のtaskを実行する. 単位はms.
+  initialDelay	指定時間後に最初のtaskを開始する. 単位はms. fixedDelay又はfixedRateと組み合わせて使用する.
+  cron	cronで指定した周期でtaskを実行する.
+  zone	cronの起動時間のタイムゾーンを指定する. 未指定時はデフォルトのtimezoneを使用する.
