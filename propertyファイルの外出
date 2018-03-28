@@ -4,3 +4,45 @@
 ２．対象プロパティに下記の設定を行う　　
 　spring.profile=ct
 　classpath.resource.properties=file:C:/Temp/web/application-ct-entity.properties
+ 
+ 或は、
+ 
+@Configuration
+public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("file:/path/to/my/dropbox/");
+    }
+}
+
+或は、
+
+@Configuration
+public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
+
+ private static final Logger LOG = LoggerFactory.getLogger(StaticResourceConfiguration.class);
+
+ @Value("${static.path}")
+ private String staticPath;
+
+ @Override
+ public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+    if(staticPath != null) {
+        LOG.info("Serving static content from " + staticPath);
+        registry.addResourceHandler("/**").addResourceLocations("file:" + staticPath);
+    }
+ }
+
+ // see https://stackoverflow.com/questions/27381781/java-spring-boot-how-to-map-my-my-app-root-to-index-html
+ @Override
+ public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("redirect:/index.html");
+ }
+}
+
+→This allows me to start my spring boot app with the parameter --static.path like
+java -jar spring-app-1.0-SNAPSHOT.jar --static.path=/path/to/my/static-files/
+
+或は、
+spring.resources.static-locations
