@@ -15,6 +15,25 @@ public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
     }
 }
 
+---------------------------------------------------------------------------------------------
+@Value("${static.path}")
+ private String staticPath;
+
+ @Override
+ public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+    if(staticPath != null) {
+        LOG.info("Serving static content from " + staticPath);
+        registry.addResourceHandler("/**").addResourceLocations("file:" + staticPath);
+    }
+ }
+
+ // see https://stackoverflow.com/questions/27381781/java-spring-boot-how-to-map-my-my-app-root-to-index-html
+ @Override
+ public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("redirect:/index.html");
+ }
+
 或は、
 
 @Configuration
