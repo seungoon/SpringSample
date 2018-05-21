@@ -1,0 +1,35 @@
+
+※実行時間定義
+# 秒/分/時/日/月/曜日
+cron:
+  cron1: 0 * * * * *
+  cron2: 1,31 * * * * *
+
+※サンプルソース：
+
+package com.schedule;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+ 
+@Component
+public class Run {
+ 
+  @Autowired
+  CronSetting cron;
+  private int i1 = 0;
+  private int i2 = 0;
+  private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+ 
+  @Scheduled(cron="${cron.cron1}")
+  public void execute1() {
+    System.out.println("cron1 実行回数: " + ++i1 + ", 実行時間: " + sdf.format(new Date()));
+  }
+ 
+  @Scheduled(cron="${cron.cron2}")
+  public void execute2() {
+    System.out.println("cron2 実行回数: " + ++i2 + ", 実行時間: " + sdf.format(new Date()));
+  }
+ 
+}
