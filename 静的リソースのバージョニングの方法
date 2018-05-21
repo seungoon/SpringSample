@@ -1,0 +1,29 @@
+■ コンテンツデータのMD5ハッシュ値によるバージョニング
+
+この方法は、静的リソースのコンテンツデータ(バイト配列)をMD5のハッシュ値にした値をバージョン番号として扱い、
+バージョン番号をファイル名に含めます。つまり、ファイルの中身がかわると別のバージョンとして認識されます。たとえば、
+オリジナルのリソースパスが/static/css/app.cssの場合は、/static/css/app-f5100c1673b440e00b7839d189c43636.cssという
+感じのリソースパスになります。
+
+@Override
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/static/**")
+            .addResourceLocations("classpath:/static/")
+            .resourceChain(false) // ローカルの開発環境ではfalse(キャッシュなし)、試験環境やプロジェクション環境ではtrue(キャッシュあり)を指定する
+            .addResolver(new VersionResourceResolver()
+            .addContentVersionStrategy("/**")); // コンテンツデータのMD5ハッシュ値によるバージョニング機能の有効化
+}
+
+■ 指定した固定バージョンによるバージョニング
+
+この方法は、指定した固定値をバージョン番号として扱い、バージョン番号はディレクトリになります。たとえば、オリジナルのリソースパスが
+/static/css/app.cssの場合は、/static/1.0.0/css/app.cssという感じのリソースパスになります。
+
+@Override
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/static/**")
+            .addResourceLocations("classpath:/static/")
+            .resourceChain(false)
+            .addResolver(new VersionResourceResolver()
+            .addFixedVersionStrategy("1.0.0","/**")); // 指定した固定バージョンによるバージョニング機能の有効化
+}
