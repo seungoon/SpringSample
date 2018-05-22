@@ -12,6 +12,22 @@ cron:
 public void doSomething() {
 }
 
+@Scheduled(cron="*/10 * * * * MON-FRI")
+public void cron() {
+    System.out.println("平日に10秒ごと実行");
+}
+
+※複数のスケジュール設定
+@Bean
+public ThreadPoolTaskScheduler  taskScheduler(){
+    ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+    taskScheduler.setPoolSize(2); // プールサイズを変更する
+    return  taskScheduler;
+}
+といった感じで ThreadPoolTaskScheduler を @Bean 登録してやり、その際に setPoolSize でプールサイズを設定してやれば良い。
+
+
+
 ※サンプルソース：
 
 package com.schedule;
