@@ -1,5 +1,14 @@
-https://github.com/a6205206z/biyu
+※参考サイト： https://github.com/a6205206z/biyu
 
+----------------------------------------------------------------------------------
+textStatusは、リクエストのステータスを分類するための文字列です。
+"success"
+"notmodified"
+"error"
+"timeout"
+"abort"
+"parsererror"
+----------------------------------------------------------------------------------
 
 <script type="text/javascript">
     $("#account").submit(function() {
