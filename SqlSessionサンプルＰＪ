@@ -27,6 +27,15 @@ https://github.com/a6205206z/biyu
     });
 </script>
 
+error: function (xhr, textStatus, errorThrown) { 
+    if (xhr.status == 403 || textStatus == 'parsererror' && xhr.responseText.match('rememberMe').length > 0) { 
+     alert('Your session has timed out.'); 
+     window.location = '<c:url value="/index.html" />'; 
+    } else 
+     alert('Something went wrong. ' + xhr.status + ': ' + errorThrown); 
+
+} 
+
 
 public class AjaxAwareAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
