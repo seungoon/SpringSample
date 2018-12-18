@@ -41,3 +41,39 @@ public class AjaxAwareAuthenticationEntryPoint extends LoginUrlAuthenticationEnt
         }
     }
 }
+
+
+public class SessionExpiredDetectingLoginUrlAuthenticationEntryPoint
+        extends LoginUrlAuthenticationEntryPoint {
+
+    private static final String AJAX_REQUEST_IDENTIFIER = "XMLHttpRequest";
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+
+        if (AJAX_REQUEST_IDENTIFIER.equals(request.getHeader("X-Requested-With"))) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        super.commence(request, response, authException);
+    }
+    
+    @Override
+    protected String buildRedirectUrlToLoginPage(
+            HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) {
+
+        String redirectUrl = super.buildRedirectUrlToLoginPage(request, response, authException);
+        if (isRequestedSessionInvalidate(request)) {
+            redirectUrl += redirectUrl.contains("?") ? "&" : "?";
+            redirectUrl += "timeout=true";
+        }
+        return redirectUrl;
+    }
+
+    private boolean isRequestedSessionInvalidate(HttpServletRequest request) {
+        return request.getRequestedSessionId() != null && !request.isRequestedSessionIdValid();
+    }
+}
