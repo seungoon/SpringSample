@@ -1,1 +1,43 @@
 https://github.com/a6205206z/biyu
+
+
+<script type="text/javascript">
+    $("#account").submit(function() {
+        var account = $(this).serializeObject();
+        jQuery.ajax({
+            'type': 'POST',
+            'url': 'ajax_info.html',
+            'beforeSend': function(xhr) {
+                xhr.setRequestHeader("X-AjaxRequest", "1");
+            },
+            'contentType': 'application/json',
+            'data': JSON.stringify(account),
+            'dataType': 'json',
+            'success': function(obj) {
+                $("#show").val(obj.name);
+            },
+            'complete': function(xhr) {
+                if (xhr.status == 601) {
+                    //alert("xhr status: " + xhr.status);
+                    window.location.reload();
+                }
+            }
+        });
+        return false;
+    });
+</script>
+
+
+public class AjaxAwareAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        if(request.getHeader("X-AjaxRequest") != null && request.getHeader("X-AjaxRequest").equals("1")){
+            ((HttpServletResponse)response).sendError(601, "");
+            System.out.println("Ajax parameter: " + request.getHeader("X-AjaxRequest"));
+        }else{
+            super.commence(request, response, authException);
+            System.out.println("Ajax parameter: " + request.getHeader("X-AjaxRequest"));
+        }
+    }
+}
